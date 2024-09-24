@@ -2,12 +2,19 @@
 
 #include <Wire.h>
 #include <RTClib.h>
+#include <LiquidCrystal_I2C.h>
 
+// Initialize the LCD with I2C address 0x27 (common for many LCDs)
+LiquidCrystal_I2C lcd(0x27, 16, 2); 
 // Create an RTC instance
 RTC_DS3231 rtc;
 
 void setup () {
   Serial.begin(9600);
+  lcd.init();
+  lcd.backlight(); // Turn on the backlight
+  lcd.setCursor(0, 0);
+  lcd.print("Hello, all!");
 
   // Initialize the RTC
   if (!rtc.begin()) {
@@ -30,17 +37,29 @@ void loop () {
 
   // Print the current date and time
   Serial.print(now.year(), DEC);
+  lcd.print(now.year(),DEC);
   Serial.print('/');
+  lcd.print('/');
   Serial.print(now.month(), DEC);
+  lcd.print(now.month(),DEC);
   Serial.print('/');
+  lcd.print('/');
   Serial.print(now.day(), DEC);
+  lcd.print(now.day(),DEC);
   Serial.print(" ");
+  lcd.print(" ");
   Serial.print(now.hour(), DEC);
+  lcd.print(now.hour(),DEC);
   Serial.print(':');
+  lcd.print(':');
   Serial.print(now.minute(), DEC);
+  lcd.print(now.minute(),DEC);
   Serial.print(':');
+  lcd.print(':');
   Serial.print(now.second(), DEC);
+  lcd.print(now.second(),DEC);
   Serial.println();
+  
 
   delay(1000); // wait for a second
 }
